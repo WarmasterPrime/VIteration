@@ -13,13 +13,13 @@
 		/// <param name="source">The source array to iterate through.</param>
 		/// <param name="predicate">The predicate that will be performed on for each item in the <paramref name="source"/> array.</param>
 		/// <returns>an array of the results.</returns>
-		/// <exception cref="Exception"></exception>
+		/// <exception cref="ArgumentNullException">Predicate function null exception.</exception>
 		public static TOut[] Iterate<TIn, TOut>(this IEnumerable<TIn> source, Func<TIn, TOut> predicate)
 		{
 			if(source is null)
 				return Array.Empty<TOut>();
 			if(predicate is null)
-				throw new Exception("Function cannot be null!");
+				throw new ArgumentNullException(nameof(predicate), "The predicate function cannot be null!");
 			TOut[] res=Array.Empty<TOut>();
 			foreach(TIn sel in source)
 			{
@@ -34,7 +34,7 @@
 			if(source is null)
 				return Array.Empty<TOut>();
 			if(predicate is null)
-				throw new Exception("Function cannot be null!");
+				throw new ArgumentNullException(nameof(predicate), "The predicate function cannot be null!");
 			TOut[] res=Array.Empty<TOut>();
 			int i=0;
 			foreach(TIn sel in source)
