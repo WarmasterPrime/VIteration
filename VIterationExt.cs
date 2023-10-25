@@ -29,6 +29,28 @@
 			return res;
 		}
 		/// <inheritdoc cref="Iterate{TIn, TOut}(IEnumerable{TIn}, Func{TIn, TOut})"/>
+		public static TOut[] IterateMultiThread<TIn, TOut>(this IEnumerable<TIn> source, Func<TIn, TOut> predicate)
+		{
+			if(source is null)
+				return Array.Empty<TOut>();
+			if(predicate is null)
+				throw new ArgumentNullException(nameof(predicate), "The predicate function cannot be null!");
+			SemaphoreSlim semaphore=new(Environment.ProcessorCount);
+			IEnumerable<TOut> RunPredicate(TIn item)
+			{
+				semaphore.Wait();
+				try
+				{
+					return new[] { predicate(item) };
+				}
+				finally
+				{
+					semaphore.Release();
+				}
+			}
+			return source.AsParallel().Select(RunPredicate).SelectMany(q=>q).AsEnumerable().ToArray();
+		}
+		/// <inheritdoc cref="Iterate{TIn, TOut}(IEnumerable{TIn}, Func{TIn, TOut})"/>
 		public static async Task<TOut[]> IterateAsync<TIn, TOut>(this IEnumerable<TIn> source, Func<TIn, Task<TOut>> predicate)
 		{
 			if(source is null)
@@ -42,6 +64,28 @@
 				try
 				{
 					return await predicate(item);
+				}
+				finally
+				{
+					semaphore.Release();
+				}
+			}
+			return await Task.WhenAll(source.Select(RunPredicate));
+		}
+		/// <inheritdoc cref="Iterate{TIn, TOut}(IEnumerable{TIn}, Func{TIn, TOut})"/>
+		public static async Task<TOut[]> IterateAsync<TIn, TOut>(this IEnumerable<TIn> source, Func<TIn, TOut> predicate)
+		{
+			if(source is null)
+				return Array.Empty<TOut>();
+			if(predicate is null)
+				throw new ArgumentNullException(nameof(predicate), "The predicate function cannot be null!");
+			SemaphoreSlim semaphore=new(Environment.ProcessorCount);
+			async Task<TOut> RunPredicate(TIn item)
+			{
+				await semaphore.WaitAsync();
+				try
+				{
+					return predicate(item);
 				}
 				finally
 				{
