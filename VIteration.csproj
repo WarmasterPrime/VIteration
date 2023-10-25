@@ -17,10 +17,21 @@
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
     <ApplicationIcon>Virtma Logo.ico</ApplicationIcon>
+    <PackageProjectUrl>https://github.com/WarmasterPrime/VIteration/tree/master</PackageProjectUrl>
+    <PackageIcon>favicon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/WarmasterPrime/VIteration/tree/master</RepositoryUrl>
+    <PackageTags>vadvance;iteration;iterate;iterative;collection;enumeration;enumerable;enumerate;recursive</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="Virtma Logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\dvalente\Desktop\tmp\favicon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
