@@ -29,23 +29,26 @@
 			return res;
 		}
 		/// <inheritdoc cref="Iterate{TIn, TOut}(IEnumerable{TIn}, Func{TIn, TOut})"/>
-		public static async Task<TOut[]> IterateAsync<TIn, TOut>(this IEnumerable<TIn> source, Func<TIn, TOut> predicate)
+		public static async Task<TOut[]> IterateAsync<TIn, TOut>(this IEnumerable<TIn> source, Func<TIn, Task<TOut>> predicate)
 		{
 			if(source is null)
 				return Array.Empty<TOut>();
 			if(predicate is null)
 				throw new ArgumentNullException(nameof(predicate), "The predicate function cannot be null!");
-			TOut[] res=Array.Empty<TOut>();
-			int i=0;
-			foreach(TIn sel in source)
+			SemaphoreSlim semaphore=new(Environment.ProcessorCount);
+			async Task<TOut> RunPredicate(TIn item)
 			{
-				if(i%100==0)
-					await Task.Delay(1);
-				Array.Resize(ref res, res.Length+1);
-				res[^1]=predicate(sel);
-				i++;
+				await semaphore.WaitAsync();
+				try
+				{
+					return await predicate(item);
+				}
+				finally
+				{
+					semaphore.Release();
+				}
 			}
-			return res;
+			return await Task.WhenAll(source.Select(RunPredicate));
 		}
 
 	}
