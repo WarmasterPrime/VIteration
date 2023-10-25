@@ -1,5 +1,8 @@
 ﻿namespace VIteration
 {
+	/// <summary>
+	/// Provides lambda iteration extension methods for classes that inherit the <see cref="IEnumerable{T}"/> interface.
+	/// </summary>
 	public static class VIterationExt
 	{
 		/// <summary>
