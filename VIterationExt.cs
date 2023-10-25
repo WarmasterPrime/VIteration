@@ -5,7 +5,7 @@ namespace VIteration
 	/// <summary>
 	/// Provides lambda iteration extension methods for classes that inherit the <see cref="IEnumerable{T}"/> interface.
 	/// </summary>
-	[Guid(_guidValue)]
+	[GuidAttribute(_guidValue)]
 	public static class VIterationExt
 	{
 		private const string _guidValue = "e3d8fdc5-4c2d-456e-8236-7b9656ab2a29";
