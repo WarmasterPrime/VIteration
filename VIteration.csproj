@@ -5,6 +5,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Title>VIteration</Title>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Company>D.O.F.T.</Company>
+    <Authors>Daniel K. Valente</Authors>
+    <Description>Provides iteration extension methods for classes that inherit from the IEnumerable interface.</Description>
+    <Copyright>Apache-2.0</Copyright>
+    <PackAsTool>True</PackAsTool>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
   </PropertyGroup>
 
 </Project>
